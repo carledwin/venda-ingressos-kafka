@@ -14,9 +14,9 @@ public class VendaSerializer implements Serializer<Venda> {
             byte[] vendaInBytes = new ObjectMapper().writeValueAsBytes(venda);
             return vendaInBytes;
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         return null;
     }

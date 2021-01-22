@@ -24,8 +24,6 @@ public class GeraVendas {
         int qtdIngressos = random.nextInt(10);
 
         //cmd --> kafka-topics --bootstrap-server localhost:9093 --create --topic venda-ingressos
-        Venda venda = new Venda(operacao++, cliente, qtdIngressos, valorIngresso.multiply(BigDecimal.valueOf(qtdIngressos)));
-
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092, localhost:9093");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -34,6 +32,7 @@ public class GeraVendas {
         try (KafkaProducer<String, Venda> kafkaProducer = new KafkaProducer<>(properties)) {
 
             while (true) {
+                Venda venda = new Venda(operacao++, cliente, qtdIngressos, valorIngresso.multiply(BigDecimal.valueOf(qtdIngressos)));
                 ProducerRecord<String, Venda> vendaProducerRecord = new ProducerRecord<>(topic, venda);
                 kafkaProducer.send(vendaProducerRecord);
                 Thread.sleep(200);//esperando um tempo
